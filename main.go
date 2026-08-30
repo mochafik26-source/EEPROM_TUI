@@ -88,11 +88,13 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				// Add value to slice
 				m.inputVal = append(m.inputVal, value)
 
+				m.step++
 				// Clear input box
 				m.input.Reset()
-
+				if m.step > 2{
+					return m, tea.Quit
+				}
 				// Go to next input
-				m.step++
 
 				return m, nil
 			}
