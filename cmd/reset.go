@@ -5,12 +5,12 @@ import(
 	"github.com/spf13/cobra"
 )
 
-Var resetCmd = &cobra.Command{
+var resetCmd = &cobra.Command{
 	Use : "Reset",
-	Args: cobra.ExactArgs(1)
+	Args: cobra.ExactArgs(1),
 
 	Run: func(cmd *cobra.Command, args []string){
 		Verify := args[0]
-
+		fmt.Println(Verify)
 	},
 }
