@@ -12,7 +12,8 @@ var addCmd = &cobra.Command{
 		Name := args[0]
 		Login := args[1]
 		Password := args[2]
-		fmt.Println(Name)
+		fmt.Println(Name, Login, Password)
+
 		mode := &serial.Mode{
 		BaudRate: 9600,
 	}
@@ -23,15 +24,17 @@ var addCmd = &cobra.Command{
 	}
 	defer port.Close()
 
-	value := "Hello Arduino\n"
+values := []string{Name, Login, Password}
 
-	_, err = port.Write([]byte(value))
-	if err != nil {
+data := []byte("add" + "|" + values[0] + "|" + values[1] + "|" + values[2] + "\n")
+
+port.Write(data)
+
+if err != nil {
 		panic(err)
 	}
 
-	fmt.Println("Sent:", value)
+	fmt.Println("Sent:", values)
 
-	time.Sleep(time.Second)
 	},
 }
