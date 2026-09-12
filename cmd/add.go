@@ -26,7 +26,8 @@ var addCmd = &cobra.Command{
 
 values := []string{Name, Login, Password}
 
-data := []byte("add" + "|" + values[0] + "|" + values[1] + "|" + values[2] + "\n")
+data := []byte("add" + "|" + values[0] + "|" + values[1] + "|" + values[2] + "|")
+
 
 port.Write(data)
 

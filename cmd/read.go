@@ -24,7 +24,7 @@ import(
 		}
 
 		defer port.Close()
-		data := []byte("read" + "|" + Name)
+		data := []byte("read" + "|" + Name + "|")
 		port.Write(data)
 
 		fmt.Println(Name)

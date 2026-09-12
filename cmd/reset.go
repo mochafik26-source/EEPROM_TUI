@@ -22,7 +22,7 @@ var resetCmd = &cobra.Command{
 		}
 		defer port.Close()
 
-		port.Write([]byte("reset"))
+		port.Write([]byte("reset|"))
 		fmt.Println("reset")
 	},
 

@@ -24,7 +24,7 @@ var deleteCmd = &cobra.Command{
 		
 		defer port.Close()
 
-		data := []byte("delete" + "|" + Name)
+		data := []byte("delete" + "|" + Name + "|")
 
 		port.Write(data)
 
