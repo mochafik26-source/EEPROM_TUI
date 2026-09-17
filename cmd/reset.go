@@ -2,6 +2,9 @@ package cmd
 
 import(
 	"fmt"
+	"strings"
+	"bufio"
+	"log"
 	"github.com/spf13/cobra"
 	"go.bug.st/serial"
 )
@@ -23,7 +26,24 @@ var resetCmd = &cobra.Command{
 		defer port.Close()
 
 		port.Write([]byte("reset|"))
-		fmt.Println("reset")
+
+		reader := bufio.NewReader(port)
+
+		for {
+			data, err := reader.ReadString('\n')
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			data = strings.TrimSpace(data)
+
+			fmt.Println(data)
+
+			if data == "done" {
+				break
+			}
+		}
+
 	},
 
 }

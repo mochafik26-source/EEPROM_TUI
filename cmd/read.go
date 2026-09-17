@@ -1,7 +1,11 @@
 package cmd
 
 import(
+	"bufio"
 	"fmt"
+	"log"
+	"strings"
+
 	"github.com/spf13/cobra"
 	"go.bug.st/serial"
 )
@@ -26,7 +30,23 @@ import(
 		defer port.Close()
 		data := []byte("read" + "|" + Name + "|")
 		port.Write(data)
+		reader := bufio.NewReader(port)
 
-		fmt.Println(Name)
+		for {
+			data, err := reader.ReadString('\n')
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			data = strings.TrimSpace(data)
+
+			fmt.Println(data)
+
+			if data == "done" {
+				break
+			}
+		}
+
+
 	},
 }

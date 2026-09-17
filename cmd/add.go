@@ -1,8 +1,10 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
 	"log"
+	"strings"
 
 	"github.com/spf13/cobra"
 	"go.bug.st/serial"
@@ -29,7 +31,7 @@ var addCmd = &cobra.Command{
 		}
 		defer port.Close()
 
-		// Data to send
+		// Send data to Arduino
 		message := "add|" + name + "|" + login + "|" + password + "\n"
 
 		_, err = port.Write([]byte(message))
@@ -37,35 +39,25 @@ var addCmd = &cobra.Command{
 			log.Fatal(err)
 		}
 
-		fmt.Println("Sent:", message)
+		fmt.Println("Sent:", strings.TrimSpace(message))
 
-		// -------------------------
-		// Read Arduino response
-		// -------------------------
-
-		buffer := make([]byte, 1)
-		var response []byte
+		reader := bufio.NewReader(port)
 
 		for {
-
-			n, err := port.Read(buffer)
+			data, err := reader.ReadString('\n')
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			if n > 0 {
+			data = strings.TrimSpace(data)
 
-				// If Arduino sends '1',
-				// stop reading
-				if buffer[0] == '1' {
-					break
-				}
+			fmt.Println(data)
 
-				response = append(response, buffer[0])
+			if data == "done" {
+				break
 			}
 		}
 
-		fmt.Println("Arduino:", string(response))
 	},
 }
 
