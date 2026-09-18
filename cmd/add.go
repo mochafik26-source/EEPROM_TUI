@@ -32,14 +32,13 @@ var addCmd = &cobra.Command{
 		defer port.Close()
 
 		// Send data to Arduino
-		message := "add|" + name + "|" + login + "|" + password + "\n"
+		message := "add|" + name + "|" + login + "|" + password + "|"
 
 		_, err = port.Write([]byte(message))
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		fmt.Println("Sent:", strings.TrimSpace(message))
 
 		reader := bufio.NewReader(port)
 
